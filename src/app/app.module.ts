@@ -13,7 +13,11 @@ import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
-import { HeaderComponent } from './header/header.component';
+import { BannerComponent } from './banner/banner.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import { TabGroupStretchedComponent } from './tab-group-stretched/tab-group-stretched.component';
+import { MatTabsModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -23,10 +27,16 @@ import { HeaderComponent } from './header/header.component';
     MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
-    HeaderComponent
+    BannerComponent,
+    TabGroupStretchedComponent
   ],
   imports: [
+    //remove forRoot if you want to use with other modules (children)
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatTabsModule,
+    MatButtonModule, 
+    MatCheckboxModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     ),
@@ -37,6 +47,7 @@ import { HeaderComponent } from './header/header.component';
     FormsModule,
     AppRoutingModule
   ],
+  exports: [MatButtonModule, MatCheckboxModule],
   providers: [],
   bootstrap: [AppComponent]
 })
