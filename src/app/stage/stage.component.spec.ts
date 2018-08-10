@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TabGroupStretchedComponent } from './tab-group-stretched.component';
+import { StageComponent } from './stage.component';
 
-describe('TabGroupStretchedComponent', () => {
-  let component: TabGroupStretchedComponent;
-  let fixture: ComponentFixture<TabGroupStretchedComponent>;
+describe('StageComponent', () => {
+  let component: StageComponent;
+  let fixture: ComponentFixture<StageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabGroupStretchedComponent ]
+      declarations: [ StageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TabGroupStretchedComponent);
+    fixture = TestBed.createComponent(StageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

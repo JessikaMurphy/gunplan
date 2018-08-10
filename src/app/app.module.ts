@@ -15,9 +15,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { BannerComponent } from './banner/banner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule} from '@angular/material';
-import { TabGroupStretchedComponent } from './tab-group-stretched/tab-group-stretched.component';
+import {MatButtonModule, MatCheckboxModule, MatGridTile, MatGridList} from '@angular/material';
 import { MatTabsModule } from '@angular/material';
+import { GridListComponent } from './grid-list/grid-list.component';
+import { BacklogComponent } from './backlog/backlog.component';
+import { StageComponent } from './stage/stage.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,11 @@ import { MatTabsModule } from '@angular/material';
     DashboardComponent,
     HeroSearchComponent,
     BannerComponent,
-    TabGroupStretchedComponent
+    MatGridList,
+    GridListComponent,
+    MatGridTile,
+    BacklogComponent,
+    StageComponent
   ],
   imports: [
     //remove forRoot if you want to use with other modules (children)
@@ -47,7 +53,7 @@ import { MatTabsModule } from '@angular/material';
     FormsModule,
     AppRoutingModule
   ],
-  exports: [MatButtonModule, MatCheckboxModule],
+  exports: [MatButtonModule, MatCheckboxModule,MatGridTile],
   providers: [],
   bootstrap: [AppComponent]
 })
