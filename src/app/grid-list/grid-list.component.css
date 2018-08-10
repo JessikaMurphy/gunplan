@@ -42,10 +42,10 @@
     color: #607d8b;
   }
   .grid-pad {
-    padding: 10px 0;
+    padding: 10px;
   }
   .grid-pad > [class*='col-']:last-of-type {
-    padding-right: 20px;
+    padding-right: 0;
   }
   @media (max-width: 600px) {
     .module {

@@ -20,6 +20,7 @@ import { MatTabsModule } from '@angular/material';
 import { GridListComponent } from './grid-list/grid-list.component';
 import { BacklogComponent } from './backlog/backlog.component';
 import { StageComponent } from './stage/stage.component';
+import { KitListButtonsComponent } from './kit-list-buttons/kit-list-buttons.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { StageComponent } from './stage/stage.component';
     GridListComponent,
     MatGridTile,
     BacklogComponent,
-    StageComponent
+    StageComponent,
+    KitListButtonsComponent
   ],
   imports: [
     //remove forRoot if you want to use with other modules (children)
