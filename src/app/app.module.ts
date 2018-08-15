@@ -21,6 +21,8 @@ import { GridListComponent } from './grid-list/grid-list.component';
 import { BacklogComponent } from './backlog/backlog.component';
 import { StageComponent } from './stage/stage.component';
 import { KitListButtonsComponent } from './kit-list-buttons/kit-list-buttons.component';
+import { BuildingComponent } from './building/building.component';
+import { MyPaintsComponent } from './my-paints/my-paints.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { KitListButtonsComponent } from './kit-list-buttons/kit-list-buttons.com
     MatGridTile,
     BacklogComponent,
     StageComponent,
-    KitListButtonsComponent
+    KitListButtonsComponent,
+    BuildingComponent,
+    MyPaintsComponent
   ],
   imports: [
     //remove forRoot if you want to use with other modules (children)

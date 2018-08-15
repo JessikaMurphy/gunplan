@@ -20,3 +20,9 @@ body, input[text], button {
 * {
   font-family: Arial, Helvetica, sans-serif;
 }
+.my-paints{
+  color: #369;
+  float: right;
+  margin-right: 10px;
+  
+}

@@ -28,7 +28,7 @@ export class HeroService {
       catchError(this.handleError<Hero>('addHero'))
     );
   }
-  
+
 
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
