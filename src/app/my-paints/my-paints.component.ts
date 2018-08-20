@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Paint } from '../paint';
+import {PaintService} from '../paint.service';
+
 
 @Component({
   selector: 'app-my-paints',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyPaintsComponent implements OnInit {
 
-  constructor() { }
+
+  paints: Paint[];
+  constructor(private paintService: PaintService) { }
 
   ngOnInit() {
+    this.getPaints();
+  }
+  getPaints(): void {
+    this.paintService.getPaints()
+    .subscribe(paints => this.paints = paints);
   }
 
 }
