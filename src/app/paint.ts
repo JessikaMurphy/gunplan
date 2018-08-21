@@ -1,4 +1,7 @@
 export class Paint {
-    id: number;
-    name: string;
+    id: String;
+    name: String;
+    rgb: String;
   }
+
+  

@@ -1,3 +1,15 @@
 <p>
   my-paints works!
+  
 </p>
+
+<ul class="paints">
+  <li *ngFor="let paint of paints">
+      <div [ngStyle]="{'color': 'paint.rgb'}">
+        
+    <a>
+      <span class="badge">{{paint.id}}</span>{{paint.name}}</a>
+      </div>
+    </li>
+</ul>
+
