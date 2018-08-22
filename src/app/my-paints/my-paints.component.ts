@@ -17,12 +17,10 @@ export class MyPaintsComponent implements OnInit {
   ngOnInit() {
     this.getPaints();
   }
+  
   getPaints(): void {
-    this.paints = this.paintService.constructPaintArray();
-    
-  }
-  getColor(paint) { 
-    return paint.rgb;
+    this.paintService.getPaints()
+        .subscribe(paints => this.paints = paints);
   }
 
 }

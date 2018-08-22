@@ -1,4 +1,9 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
+import {PaintService} from './paint.service';
+import {Paint} from './paint';
+import {PAINTIDS} from './mockedColors';
+import {PAINTRGBS} from './mockedColors';
+import {PAINTNAMES} from './mockedColors';
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -14,6 +19,46 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 19, name: 'Magma' },
       { id: 20, name: 'Tornado' }
     ];
-    return {heroes};
+    const paints = this.constructPaintArray();
+    return {heroes, paints};
+    
+    
+    
+
+  }
+  getPaintNames(): String[] {
+    return PAINTNAMES;
+  }
+  getPaintIds(): String[] {
+    return PAINTIDS;
+  }
+  getPaintRgbs(): String[] {
+    return PAINTRGBS;
+  }
+  constructPaintArray(): Paint[]{
+    var mrColorPaints = [];
+    var mrColorIds = this.getPaintIds();
+    var paintRgbs = this.getPaintRgbs();
+  
+    var mrColorNames = this.getPaintNames();
+    let itemCount = 0;
+    
+    for (let index = 0; index < mrColorIds.length; index++) {
+      if(mrColorIds[index] != null && mrColorIds[index] != mrColorIds[index - 1]){
+        var thergb = paintRgbs[index];
+        thergb = "#"+thergb;
+        paintRgbs[index] = thergb;
+
+        
+        var indexPaint: Paint = {
+          id : mrColorIds[index],
+          name : mrColorNames[index],
+          rgb : paintRgbs[index]
+        }
+        mrColorPaints[itemCount] = indexPaint;
+        itemCount++;
+      }
+    }
+    return mrColorPaints;
   }
 }

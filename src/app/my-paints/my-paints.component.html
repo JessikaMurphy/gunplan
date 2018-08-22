@@ -2,14 +2,37 @@
   my-paints works!
   
 </p>
-
-<ul class="paints">
-  <li *ngFor="let paint of paints">
-      <div [ngStyle]="{'color': 'paint.rgb'}">
-        
-    <a>
-      <span class="badge">{{paint.id}}</span>{{paint.name}}</a>
+<div id="container">
+  <div id="row">
+      <div id = "col1">
+          <ul class="paints">
+              <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb">
+                <a><span class="badge">{{paint.id}}</span>{{paint.name}}</a>  
+              </li>
+            </ul>
       </div>
-    </li>
-</ul>
+    <div id="col2">
+        <ul class="paints">
+            <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb">
+              <a><span class="badge">{{paint.id}}</span>{{paint.name}}</a>  
+            </li>
+          </ul>
+    </div>
+  </div>
+</div>
+      
+      
+     
+
+
+ 
+
+  
+  
+  
+
+        
+        
+
+
 
