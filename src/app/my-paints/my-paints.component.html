@@ -12,11 +12,13 @@
             </ul>
       </div>
     <div id="col2">
-        <ul class="paints">
-            <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb">
-              <a><span class="badge">{{paint.id}}</span>{{paint.name}}</a>  
-            </li>
-          </ul>
+      <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+ 
+      <ul class="paints">
+        <li *ngFor="let paint of paints$ | async" [style.backgroundColor]="paint.rgb">
+          <a><span class="badge">{{paint.id}}</span>{{paint.name}}</a>  
+        </li>
+      </ul>
     </div>
   </div>
 </div>

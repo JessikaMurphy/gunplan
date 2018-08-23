@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -31,18 +32,22 @@ export class PaintService {
       catchError(this.handleError('getPaints', []))
     );
   }
-  searchHeroes(term: string): Observable<Paint[]> {
+  searchPaints(term: string): Observable<Paint[]> {
     if (!term.trim()) {
-      // if not search term, return empty hero array.
+      // if not search term, return empty paint array.
       return of([]);
     }
-    return this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`).pipe(
-      tap(_ => this.log(`found heroes matching "${term}"`)),
-      catchError(this.handleError<Paint[]>('searchHeroes', []))
+    
+    
+
+    return this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`)
+    .pipe(
+      tap(_ => this.log(`found paints matching "${term}"`)),
+      catchError(this.handleError<Paint[]>('searchPaints', []))
     );
   }
   private log(message: string) {
-    this.messageService.add(`HeroService: ${message}`);
+    this.messageService.add(`PaintService: ${message}`);
   }
    /**
  * Handle Http operation that failed.
