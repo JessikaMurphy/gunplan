@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import {Paint} from './paint';
 import { MessageService } from './message.service';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, mergeMap } from 'rxjs/operators';
+
+
+
 
 
 const httpOptions = {
@@ -16,7 +19,9 @@ const httpOptions = {
 })
 export class PaintService {
 
+  paints: Observable<Paint>;
   private paintsUrl = 'api/paints';
+  
   constructor(
     private http: HttpClient,
     private messageService: MessageService
@@ -37,10 +42,10 @@ export class PaintService {
       // if not search term, return empty paint array.
       return of([]);
     }
-    
-    
 
-    return this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`)
+    this.paints.subscribe
+   return this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`)
+    
     .pipe(
       tap(_ => this.log(`found paints matching "${term}"`)),
       catchError(this.handleError<Paint[]>('searchPaints', []))
