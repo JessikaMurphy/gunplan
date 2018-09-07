@@ -22,7 +22,8 @@ export class MyPaintsComponent implements OnInit {
 
   ngOnInit() {
     this.getPaints();
-    this.paints$ = this.searchTerms.pipe(
+    
+      this.paints$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
  
@@ -38,6 +39,7 @@ export class MyPaintsComponent implements OnInit {
     this.paintService.getPaints()
         .subscribe(paints => this.paints = paints);
   }
+  
   
 
   search(term: string): void {

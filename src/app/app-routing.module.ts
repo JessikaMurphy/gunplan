@@ -7,8 +7,13 @@ import { BacklogComponent } from './backlog/backlog.component';
 import { BuildingComponent } from './building/building.component';
 import { MyPaintsComponent } from './my-paints/my-paints.component';
 
+import {UserComponent} from './user/user.component';
+import {LoginComponent} from './login/login.component';
+
 
 const routes: Routes = [
+  { path: 'user', component: UserComponent },
+{ path: 'login', component: LoginComponent },
   { path: 'detail/:id', component: HeroDetailComponent },
   { path: 'backlog', component: BacklogComponent },
   { path: 'my-paints', component: MyPaintsComponent },

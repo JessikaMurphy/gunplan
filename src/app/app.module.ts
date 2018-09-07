@@ -23,6 +23,8 @@ import { StageComponent } from './stage/stage.component';
 import { KitListButtonsComponent } from './kit-list-buttons/kit-list-buttons.component';
 import { BuildingComponent } from './building/building.component';
 import { MyPaintsComponent } from './my-paints/my-paints.component';
+import { LoginComponent } from './login/login.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { MyPaintsComponent } from './my-paints/my-paints.component';
     StageComponent,
     KitListButtonsComponent,
     BuildingComponent,
-    MyPaintsComponent
+    MyPaintsComponent,
+    LoginComponent,
+    UserComponent
   ],
   imports: [
     //remove forRoot if you want to use with other modules (children)

@@ -3,12 +3,10 @@ import {Paint} from './paint';
 import { MessageService } from './message.service';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, tap, mergeMap } from 'rxjs/operators';
 
-
-
-
+import {forkJoin} from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,7 +17,7 @@ const httpOptions = {
 })
 export class PaintService {
 
-  paints: Observable<Paint>;
+  
   private paintsUrl = 'api/paints';
   
   constructor(
@@ -28,29 +26,39 @@ export class PaintService {
 
   ) { }
 
-  
-  
   getPaints(): Observable<Paint[]> {
     return this.http.get<Paint[]>(this.paintsUrl)
     .pipe(
-      tap(heroes => this.log('fetched paints')),
+      tap(paints => this.log('fetched paints')),
       catchError(this.handleError('getPaints', []))
     );
   }
-  searchPaints(term: string): Observable<Paint[]> {
+  searchPaints(term: string): Observable<any> {
     if (!term.trim()) {
       // if not search term, return empty paint array.
       return of([]);
     }
-
-    this.paints.subscribe
-   return this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`)
-    
-    .pipe(
+    const options = term ?
+   { params: new HttpParams().set('name', term) } : {};
+   
+   
+   return forkJoin(this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`),
+   this.http.get<Paint[]>(`${this.paintsUrl}/?id=${term}`))
+   
+   .pipe(
       tap(_ => this.log(`found paints matching "${term}"`)),
       catchError(this.handleError<Paint[]>('searchPaints', []))
     );
   }
+  getDataFromTwoResources(term: string) {
+    // The URLs in this example are dummy
+    
+    
+    return forkJoin(this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`),
+    this.http.get<Paint[]>(`${this.paintsUrl}/?id=${term}`));
+}
+  
+  
   private log(message: string) {
     this.messageService.add(`PaintService: ${message}`);
   }
