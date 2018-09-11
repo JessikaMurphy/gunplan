@@ -4,6 +4,7 @@ import {Paint} from './paint';
 import {PAINTIDS} from './mockedColors';
 import {PAINTRGBS} from './mockedColors';
 import {PAINTNAMES} from './mockedColors';
+import { concat } from 'rxjs';
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -46,6 +47,10 @@ export class InMemoryDataService implements InMemoryDbService {
     for (let index = 0; index < mrColorIds.length; index++) {
       if(mrColorIds[index] != null && mrColorIds[index] != mrColorIds[index - 1]){
         var thergb = paintRgbs[index];
+        
+        
+        
+
         thergb = "#"+thergb;
         paintRgbs[index] = thergb;
 
@@ -55,10 +60,14 @@ export class InMemoryDataService implements InMemoryDbService {
           name : mrColorNames[index],
           rgb : paintRgbs[index]
         }
+        
+        
         mrColorPaints[itemCount] = indexPaint;
         itemCount++;
       }
     }
+    console.log(mrColorPaints);
+
     return mrColorPaints;
   }
 }

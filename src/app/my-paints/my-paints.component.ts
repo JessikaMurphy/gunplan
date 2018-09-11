@@ -38,7 +38,10 @@ export class MyPaintsComponent implements OnInit {
   getPaints(): void {
     this.paintService.getPaints()
         .subscribe(paints => this.paints = paints);
+        
+        
   }
+  
   
   
 
