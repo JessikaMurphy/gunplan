@@ -7,7 +7,7 @@
       <div id = "col1">
           <ul class="paints">
               <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb">
-                <a><span class="badge">{{paint.id}}</span>{{paint.name}}</a>  
+                <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>  
               </li>
             </ul>
       </div>
@@ -16,7 +16,7 @@
  
       <ul class="paints">
         <li *ngFor="let paint of paints$ | async" [style.backgroundColor]="paint.rgb">
-          <a><span class="badge">{{paint.id}}</span>{{paint.name}}</a>  
+          <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>  
         </li>
       </ul>
     </div>

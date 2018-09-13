@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Paint} from './paint';
 import { MessageService } from './message.service';
+import { Http, Response,RequestOptions, Request, Headers } from "@angular/http";
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -8,9 +9,11 @@ import { catchError, map, tap, mergeMap } from 'rxjs/operators';
 
 import {forkJoin} from 'rxjs';
 
-const httpOptions = {
+/* const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+}; */
+let requestOptions = new RequestOptions({ headers:null, withCredentials: 
+  true });
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,9 @@ const httpOptions = {
 export class PaintService {
 
   
-  private paintsUrl = 'api/paints';
+  //private paintsUrl = 'api/paints';
+  private paintsUrl = 'http://localhost:8083/rest/paint/';
+  observablePaints: Observable<Paint[]>;
   
   constructor(
     private http: HttpClient,
@@ -26,6 +31,15 @@ export class PaintService {
 
   ) { }
 
+  // Rest Items Service: Read all REST Items
+  restItemsServiceGetRestItems(): Observable<Paint[]> {
+    return this.http.get<Paint[]>(this.paintsUrl)
+    .pipe(
+      tap(paints => this.log('fetched paints')),
+      catchError(this.handleError('getPaints', []))
+    );
+
+  }
   getPaints(): Observable<Paint[]> {
     return this.http.get<Paint[]>(this.paintsUrl)
     .pipe(
@@ -38,12 +52,8 @@ export class PaintService {
       // if not search term, return empty paint array.
       return of([]);
     }
-    const options = term ?
-   { params: new HttpParams().set('name', term) } : {};
-   
-   
-   return forkJoin(this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`),
-   this.http.get<Paint[]>(`${this.paintsUrl}/?id=${term}`))
+    
+   return this.http.get<Paint[]>(`${this.paintsUrl}/search/${term}`)
    
    .pipe(
       tap(_ => this.log(`found paints matching "${term}"`)),
@@ -56,7 +66,7 @@ export class PaintService {
     
     return forkJoin(this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`),
     this.http.get<Paint[]>(`${this.paintsUrl}/?id=${term}`));
-}
+  }
   
   
   private log(message: string) {

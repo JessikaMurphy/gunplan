@@ -16,12 +16,13 @@ export class MyPaintsComponent implements OnInit {
 
 
   paints : Paint[];
+  restItems: any;
   paints$: Observable<Paint[]>;
   private searchTerms = new Subject<string>();
   constructor(private paintService: PaintService) { }
 
   ngOnInit() {
-    this.getPaints();
+    this.getRestItems();
     
       this.paints$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
@@ -31,15 +32,23 @@ export class MyPaintsComponent implements OnInit {
       distinctUntilChanged(),
  
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.paintService.searchPaints(term)),
-    );
+      switchMap((term: string) => this.paintService.searchPaints(term)), 
+    )
+    ;
   }
   
   getPaints(): void {
     this.paintService.getPaints()
-        .subscribe(paints => this.paints = paints);
-        
-        
+        .subscribe(paints => this.paints = paints);     
+  }
+  getRestItems(): void {
+    this.paintService.restItemsServiceGetRestItems()
+      .subscribe(
+        paints => {
+          this.paints = paints;
+          console.log(this.paints);
+        }
+      )
   }
   
   

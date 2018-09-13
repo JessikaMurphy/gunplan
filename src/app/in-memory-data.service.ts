@@ -20,8 +20,10 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 19, name: 'Magma' },
       { id: 20, name: 'Tornado' }
     ];
-    const paints = this.constructPaintArray();
-    return {heroes, paints};
+    //const paints = this.constructPaintArray();
+    return {heroes
+      //, paints
+    };
     
     
     
@@ -36,7 +38,7 @@ export class InMemoryDataService implements InMemoryDbService {
   getPaintRgbs(): String[] {
     return PAINTRGBS;
   }
-  constructPaintArray(): Paint[]{
+  /* constructPaintArray(): Paint[]{
     var mrColorPaints = [];
     var mrColorIds = this.getPaintIds();
     var paintRgbs = this.getPaintRgbs();
@@ -69,5 +71,5 @@ export class InMemoryDataService implements InMemoryDbService {
     console.log(mrColorPaints);
 
     return mrColorPaints;
-  }
+  } */
 }
