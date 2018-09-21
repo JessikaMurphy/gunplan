@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Paint } from '../paint';
 import {PaintService} from '../paint.service';
 import { Observable, Subject } from 'rxjs';
+import { AuthenticationService} from '../_services/authentication.service';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
@@ -19,11 +20,11 @@ export class MyPaintsComponent implements OnInit {
   restItems: any;
   paints$: Observable<Paint[]>;
   private searchTerms = new Subject<string>();
-  constructor(private paintService: PaintService) { }
+  constructor(private paintService: PaintService, private auth: AuthenticationService ) { }
 
   ngOnInit() {
     this.getRestItems();
-    
+      
       this.paints$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -36,6 +37,11 @@ export class MyPaintsComponent implements OnInit {
     )
     ;
   }
+  onSelect(paint):void{
+    console.log(paint);
+    this.auth.addPaint(paint).subscribe();
+
+  }
   
   getPaints(): void {
     this.paintService.getPaints()
@@ -46,6 +52,7 @@ export class MyPaintsComponent implements OnInit {
       .subscribe(
         paints => {
           this.paints = paints;
+          
           console.log(this.paints);
         }
       )

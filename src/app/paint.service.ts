@@ -50,7 +50,7 @@ export class PaintService {
   searchPaints(term: string): Observable<any> {
     if (!term.trim()) {
       // if not search term, return empty paint array.
-      return of([]);
+      return this.restItemsServiceGetRestItems();
     }
     
    return this.http.get<Paint[]>(`${this.paintsUrl}/search/${term}`)
@@ -60,15 +60,7 @@ export class PaintService {
       catchError(this.handleError<Paint[]>('searchPaints', []))
     );
   }
-  getDataFromTwoResources(term: string) {
-    // The URLs in this example are dummy
-    
-    
-    return forkJoin(this.http.get<Paint[]>(`${this.paintsUrl}/?name=${term}`),
-    this.http.get<Paint[]>(`${this.paintsUrl}/?id=${term}`));
-  }
-  
-  
+ 
   private log(message: string) {
     this.messageService.add(`PaintService: ${message}`);
   }

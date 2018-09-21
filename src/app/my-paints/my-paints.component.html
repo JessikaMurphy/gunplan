@@ -6,7 +6,7 @@
   <div id="row">
       <div id = "col1">
           <ul class="paints">
-              <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb">
+              <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb"(click)="onSelect(paint)">
                 <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>  
               </li>
             </ul>
@@ -15,7 +15,7 @@
       <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
  
       <ul class="paints">
-        <li *ngFor="let paint of paints$ | async" [style.backgroundColor]="paint.rgb">
+        <li *ngFor="let paint of paints$ | async" [style.backgroundColor]="paint.rgb"(click)="onSelect(paint)">
           <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>  
         </li>
       </ul>
