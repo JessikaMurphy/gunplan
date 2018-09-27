@@ -2,22 +2,22 @@ import { NgModule } from '@angular/core';
 import { 
     MatButtonModule, 
     MatCheckboxModule,
-    MatGridTile, 
-    MatGridList,
+    
+    MatGridListModule,
     MatTabsModule } from '@angular/material';
 
 @NgModule({
     imports: [
         MatButtonModule,
         MatCheckboxModule,
-        MatGridTile,
-        MatGridList,
+        
+        MatGridListModule,
         MatTabsModule],
     exports: [
         MatButtonModule,
         MatCheckboxModule,
-        MatGridTile,
-        MatGridList,
+       
+        MatGridListModule,
         MatTabsModule
     ],
 })

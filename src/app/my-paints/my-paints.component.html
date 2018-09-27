@@ -5,9 +5,10 @@
 <div id="container">
   <div id="row">
       <div id = "col1">
-          <ul class="paints">
-              <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb"(click)="onSelect(paint)">
-                <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>  
+          <ul class="mypaints">
+              <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb">
+                <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}
+                  </a><button (click)="removePaint(paint)" mat-mini-fab>X</button>
               </li>
             </ul>
       </div>

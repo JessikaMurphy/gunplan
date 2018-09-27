@@ -19,11 +19,13 @@ export class MyPaintsComponent implements OnInit {
   paints : Paint[];
   restItems: any;
   paints$: Observable<Paint[]>;
+  
   private searchTerms = new Subject<string>();
   constructor(private paintService: PaintService, private auth: AuthenticationService ) { }
 
   ngOnInit() {
-    this.getRestItems();
+      this.getPaints();
+      
       
       this.paints$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
@@ -39,28 +41,42 @@ export class MyPaintsComponent implements OnInit {
   }
   onSelect(paint):void{
     console.log(paint);
-    this.auth.addPaint(paint).subscribe();
-
+    this.paintService.addPaint(paint).subscribe((res)=>{
+      
+        this.getPaints();
+        console.log("yes");
+      
+    });
+    //this is a good place to put get paints
+    //this.getPaints();
   }
+  removePaint(paint):void{
+    console.log(paint);
+    this.paintService.removePaint(paint).subscribe((res)=>{
+      console.log("remove");
+      this.getPaints();
+    });
+    
+  }
+
   
   getPaints(): void {
-    this.paintService.getPaints()
-        .subscribe(paints => this.paints = paints);     
+    this.paintService.getPaints().subscribe(paints => {
+          this.paints = paints;
+          console.log(paints);
+        });     
   }
-  getRestItems(): void {
+  /* getRestItems(): void {
     this.paintService.restItemsServiceGetRestItems()
       .subscribe(
         paints => {
           this.paints = paints;
           
+          
           console.log(this.paints);
         }
       )
-  }
-  
-  
-  
-
+  } */
   search(term: string): void {
     this.searchTerms.next(term);
   }

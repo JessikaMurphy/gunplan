@@ -41,12 +41,13 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
     KitListButtonsComponent,
     BuildingComponent,
     MyPaintsComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     //remove forRoot if you want to use with other modules (children)
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MaterialComponent,
   
     //HttpClientInMemoryWebApiModule.forRoot(
       //InMemoryDataService, { dataEncapsulation: false }

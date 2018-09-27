@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Paint} from './paint';
 import { MessageService } from './message.service';
-import { Http, Response,RequestOptions, Request, Headers } from "@angular/http";
+import { Http, Response,RequestOptions, Request, Headers, RequestMethod } from "@angular/http";
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { catchError, map, tap, mergeMap } from 'rxjs/operators';
 
 import {forkJoin} from 'rxjs';
@@ -24,7 +24,7 @@ export class PaintService {
   //private paintsUrl = 'api/paints';
   private paintsUrl = 'http://localhost:8083/rest/paint/';
   observablePaints: Observable<Paint[]>;
-  
+  private databaseUrl = 'http://localhost:5000/api/user/me/mypaints';
   constructor(
     private http: HttpClient,
     private messageService: MessageService
@@ -40,12 +40,31 @@ export class PaintService {
     );
 
   }
+  addPaint(formattedPaintString: string){
+    return this.http.put<any>('http://localhost:5000/api/user/me/add',
+    formattedPaintString,)
+    .pipe(map(
+      response=> {
+        if(response && (response.success==true))
+          console.log(response.message);
+          
+      }))
+  }
+  removePaint(formattedPaintString: string){
+    let req = new HttpRequest('DELETE', 'http://localhost:5000/api/user/me/remove');
+    let newReq = req.clone({body: formattedPaintString});
+    console.log(formattedPaintString);
+    return this.http.request(newReq);
+  }
   getPaints(): Observable<Paint[]> {
-    return this.http.get<Paint[]>(this.paintsUrl)
-    .pipe(
-      tap(paints => this.log('fetched paints')),
-      catchError(this.handleError('getPaints', []))
-    );
+    return this.http.get<any>(this.databaseUrl)
+    .pipe(map(
+      response=> {
+        if(response && (response.success==true))
+          
+          return response.paintList as Paint[];
+          
+      }))
   }
   searchPaints(term: string): Observable<any> {
     if (!term.trim()) {
