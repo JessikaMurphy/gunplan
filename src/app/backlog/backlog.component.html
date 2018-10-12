@@ -2,27 +2,45 @@
 
 <ul class="heroes">
   <li *ngFor="let hero of heroes">
-      <a routerLink="/detail/{{hero.id}}"></a>
-        <span class="badge">{{hero.id}}</span> {{hero.name}}
-        <button class="delete" title="delete hero"
-      (click)="delete(hero)">x</button>
-      <button class="up" title="move kit up"
-      (click)="moveUpHero(hero)">up</button>
-      <button class="next" title="move kit to build"
-      (click)="moveToBuild(hero)">N</button>
-      
-    
+    <a routerLink="/detail/{{hero.id}}"></a>
+    <span class="badge">{{hero.id}}</span> {{hero.name}}
+    <button class="delete" title="delete hero" (click)="delete(hero)">x</button>
+    <button class="up" title="move kit up" (click)="moveUpHero(hero)">up</button>
+    <button class="next" title="move kit to build" (click)="moveToBuild(hero)">N</button>
+
+
   </li>
 </ul>
 
 
-    
+
 <div>
-    <label>Kit name:
-      <input #heroName />
-    </label>
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="add(heroName.value); heroName.value=''">
-      add
-    </button>
-  </div>
+  <label>Kit name:
+    <input #heroName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="add(heroName.value); heroName.value=''">
+    add
+  </button>
+</div>
+
+
+
+<div fxLayout="column" fxLayout.xs="row" fxLayoutGap="0.5%" fxLayoutAlign="center">
+  <mat-card class="kit-card" *ngFor="let kit of kits | async">
+    <!-- <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [style.background-image]="'url('+kit.image+')'"></div>
+      <mat-card-title>{{kit.title}}</mat-card-title>
+      <mat-card-subtitle>{{kit.series}}</mat-card-subtitle>
+    </mat-card-header> -->
+
+    <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+      <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
+      <span fxFlex="55%" class="kit-name">{{kit.title}}</span>
+      <mat-icon fxFlex="10%">mode_edit</mat-icon>
+      <mat-icon fxFlex="10%">delete</mat-icon>
+
+    </mat-card-title>
+    
+  </mat-card>
+</div>

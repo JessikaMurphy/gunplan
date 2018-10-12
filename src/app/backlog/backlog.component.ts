@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 //replace these two things with kit and kit service
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-backlog',
@@ -15,6 +17,7 @@ import { HeroService } from '../hero.service';
 export class BacklogComponent implements OnInit {
 
   heroes: Hero[];
+  kits: Observable<any[]>;
   
   moveUpHero(hero: Hero): void{
     var indexInitial = this.heroes.indexOf(hero);
@@ -45,8 +48,11 @@ export class BacklogComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location
-  ) { }
+    private location: Location,
+    db: AngularFirestore
+  ) { 
+    this.kits = db.collection('masterGrade').valueChanges();
+  }
 
   ngOnInit() {
     this.getHeroes();

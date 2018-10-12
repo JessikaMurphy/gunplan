@@ -1,12 +1,10 @@
-<app-banner></app-banner>
-<h1>{{ title }}!</h1>
-<button class = "my-paints"routerLink="/my-paints">My Paints</button>
-<nav>
-    <a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/heroes">Heroes</a>
-    <a routerLink="/backlog">Backlog</a>
-</nav>
-
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <h1>{{ title }}!</h1>
+        <span class="example-spacer"></span>
+        <button mat-raised-button routerLink="/my-paints">My Paints</button>
+    </mat-toolbar-row>
+</mat-toolbar>
 <div class="mat-app-background basic-container">
     <app-grid-list>loading</app-grid-list>
 </div>

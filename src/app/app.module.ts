@@ -23,6 +23,11 @@ import { ReactiveFormsModule }    from '@angular/forms';
 import { MaterialComponent } from './material';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 
 
 
@@ -48,6 +53,9 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MaterialComponent,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    FlexLayoutModule,
   
     //HttpClientInMemoryWebApiModule.forRoot(
       //InMemoryDataService, { dataEncapsulation: false }
@@ -60,7 +68,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
     FormsModule,
     AppRoutingModule
   ],
-  exports: [],
+  exports: [MaterialComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

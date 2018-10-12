@@ -12,6 +12,9 @@ h2, h3 {
 body {
   margin: 2em;
 }
+.example-spacer {
+  flex: 1 1 auto;
+}
 body, input[text], button {
   color: #888;
   font-family: Cambria, Georgia;
