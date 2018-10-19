@@ -25,22 +25,34 @@
 </div>
 
 
-
-<div fxLayout="column" fxLayout.xs="row" fxLayoutGap="0.5%" fxLayoutAlign="center">
-  <mat-card class="kit-card" *ngFor="let kit of kits | async">
-    <!-- <mat-card-header>
+<div fxLayout="row" fxLayout.xs="row" fxLayoutGap="1%">
+  <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
+    <mat-card class="kit-card" *ngFor="let kit of kits | async" (click)="onSelect(kit)">
+      <!-- <mat-card-header>
       <div mat-card-avatar class="example-header-image" [style.background-image]="'url('+kit.image+')'"></div>
       <mat-card-title>{{kit.title}}</mat-card-title>
       <mat-card-subtitle>{{kit.series}}</mat-card-subtitle>
     </mat-card-header> -->
+      <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
+        <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
+        <span fxFlex="75%" class="kit-name">{{kit.title}}</span>
+      </mat-card-title>
+    </mat-card>
+  </div>
 
-    <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
-      <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
-      <span fxFlex="55%" class="kit-name">{{kit.title}}</span>
-      <mat-icon fxFlex="10%">mode_edit</mat-icon>
-      <mat-icon fxFlex="10%">delete</mat-icon>
+  <div class="kit-detail" *ngIf="kit">
 
-    </mat-card-title>
-    
-  </mat-card>
+
+    <mat-card class="kit-card" (click)="collapsed = !collapsed">
+      <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
+        <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
+        <span fxFlex="55%" class="kit-name">{{kit.title}}</span>
+      </mat-card-title>
+      <mat-card-content *ngIf="collapsed">
+        
+        <span>{{kit.info_text}}</span>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

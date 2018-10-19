@@ -15,7 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GridListComponent } from './grid-list/grid-list.component';
 import { BacklogComponent } from './backlog/backlog.component';
 import { StageComponent } from './stage/stage.component';
-import { KitListButtonsComponent } from './kit-list-buttons/kit-list-buttons.component';
 import { BuildingComponent } from './building/building.component';
 import { MyPaintsComponent } from './my-paints/my-paints.component';
 import { LoginComponent } from './login/login.component';
@@ -43,7 +42,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     GridListComponent,
     BacklogComponent,
     StageComponent,
-    KitListButtonsComponent,
     BuildingComponent,
     MyPaintsComponent,
     LoginComponent

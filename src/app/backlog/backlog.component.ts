@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 //replace these two things with kit and kit service
-import { Hero } from '../hero';
+import { Kit } from '../kit';
 import { HeroService } from '../hero.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -16,17 +16,27 @@ import { Observable } from 'rxjs';
 })
 export class BacklogComponent implements OnInit {
 
-  heroes: Hero[];
-  kits: Observable<any[]>;
   
-  moveUpHero(hero: Hero): void{
+  kits: Observable<any[]>;
+  hideDetails: boolean;
+  holdKit = new Array();
+  kit = null;
+ 
+  
+  
+  /* moveUpHero(hero: Hero): void{
     var indexInitial = this.heroes.indexOf(hero);
     var aboveHero = this.heroes[indexInitial - 1];
     this.heroes[indexInitial - 1] = hero;
     this.heroes[indexInitial] = aboveHero;
+  } */
+  onSelect(kit):void{
+    this.hideDetails = !this.hideDetails;
+    this.kit = kit;
+    console.log(this.kit);
   }
 
-
+/* 
   getHeroes(): void {
     this.heroService.getHeroes()
     .subscribe(heroes => this.heroes = heroes);
@@ -43,7 +53,7 @@ export class BacklogComponent implements OnInit {
   delete(hero: Hero): void {
     this.heroes = this.heroes.filter(h => h !== hero);
     this.heroService.deleteHero(hero).subscribe();
-  }
+  } */
 
   constructor(
     private route: ActivatedRoute,
@@ -52,13 +62,17 @@ export class BacklogComponent implements OnInit {
     db: AngularFirestore
   ) { 
     this.kits = db.collection('masterGrade').valueChanges();
+    this.hideDetails = true;
+    
   }
 
   ngOnInit() {
-    this.getHeroes();
+   
+
   }
   goBack(): void {
     this.location.back();
   }
+  
 
 }

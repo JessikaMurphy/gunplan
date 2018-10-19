@@ -3,26 +3,35 @@ import {
     MatButtonModule, 
     MatCheckboxModule,
     MatToolbarModule,
+    MatMenuModule,
     MatCardModule,    
     MatGridListModule,
     MatIconModule,
-    MatTabsModule } from '@angular/material';
+    MatDividerModule,
+    MatTabsModule,
+    MatExpansionModule } from '@angular/material';
 
 @NgModule({
     imports: [
         MatButtonModule,
         MatCheckboxModule,
         MatToolbarModule,
+        MatMenuModule,
         MatCardModule,
         MatIconModule,
+        MatDividerModule,
         MatGridListModule,
+        MatExpansionModule,
         MatTabsModule],
     exports: [
         MatButtonModule,
         MatCheckboxModule,
         MatToolbarModule,
+        MatMenuModule,
         MatCardModule,
+        MatDividerModule,
         MatGridListModule,
+        MatExpansionModule,
         MatTabsModule,
         MatIconModule,
     ],
