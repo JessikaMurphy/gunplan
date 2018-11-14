@@ -35,4 +35,13 @@
     top: -3px;
   }
   
+  /* .filter-buttons:focus i {
+    animation: rotate 1s ease-in-out 0s;
+  }
+  
+  @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(180deg); }
+  } */
+  
   

@@ -1,38 +1,29 @@
 <h2>My Backlog</h2>
 
-<ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <a routerLink="/detail/{{hero.id}}"></a>
-    <span class="badge">{{hero.id}}</span> {{hero.name}}
-    <button class="delete" title="delete hero" (click)="delete(hero)">x</button>
-    <button class="up" title="move kit up" (click)="moveUpHero(hero)">up</button>
-    <button class="next" title="move kit to build" (click)="moveToBuild(hero)">N</button>
-
-
-  </li>
-</ul>
-
-
-
 <div>
   <label>Kit name:
     <input #heroName />
   </label>
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="add(heroName.value); heroName.value=''">
-    add
-  </button>
+  <button mat-button (click)="searchByName()">search</button>
+  <button mat-button [matMenuTriggerFor]="menu">Series</button>
+  <mat-menu #menu="matMenu">
+    <button (click)="filterCriteria('Mobile Suit Gundam SEED')"mat-menu-item>Mobile Suit Gundam SEED</button>
+    <button (click)="filterCriteria('Mobile Suit Gundam')"mat-menu-item>Mobile Suit Gundam</button>
+    <button (click)="filterCriteria('Mobile Suit Gundam Unicorn')"mat-menu-item>Mobile Suit Gundam Unicorn</button>
+    <button (click)="filterCriteria('Mobile Suit Gundam AGE')"mat-menu-item>Mobile Suit Gundam AGE</button>
+    <button (click)="filterCriteria('Gundam Build Fighers')"mat-menu-item>Gundam Build Fighters</button>
+    <button (click)="filterCriteria('MSG 0083: Stardust Memory')"mat-menu-item>MSG 0083: Stardust Memory</button>
+
+  </mat-menu>
+  <button mat-button (click)="releaseDateAscending=!releaseDateAscending;filterByReleaseDate(releaseDateAscending)"class="filter-buttons">Release Date<i class="material-icons">sort</i></button>
+  <button mat-button (click)="direction=!direction;sortBySeries(direction)"class ="filter-buttons">Series<i class="material-icons">sort</i></button>
+  <button mat-button (click)="priceAscending=!priceAscending;filterByPrice(priceAscending)"class="filter-buttons">Price<i class="material-icons">sort</i></button>
 </div>
 
 
 <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="1%">
   <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-card class="kit-card" *ngFor="let kit of kits | async" (click)="onSelect(kit)">
-      <!-- <mat-card-header>
-      <div mat-card-avatar class="example-header-image" [style.background-image]="'url('+kit.image+')'"></div>
-      <mat-card-title>{{kit.title}}</mat-card-title>
-      <mat-card-subtitle>{{kit.series}}</mat-card-subtitle>
-    </mat-card-header> -->
+    <mat-card class="kit-card" *ngFor="let kit of kit$ | async" (click)="onSelect(kit)">
       <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
         <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
         <span fxFlex="75%" class="kit-name">{{kit.title}}</span>
@@ -41,18 +32,45 @@
   </div>
 
   <div class="kit-detail" *ngIf="kit">
-
-
     <mat-card class="kit-card" (click)="collapsed = !collapsed">
       <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
         <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
         <span fxFlex="55%" class="kit-name">{{kit.title}}</span>
       </mat-card-title>
       <mat-card-content *ngIf="collapsed">
-        
         <span>{{kit.info_text}}</span>
         <mat-divider></mat-divider>
       </mat-card-content>
     </mat-card>
   </div>
+  <ul>
+    <li *ngFor="let kit of kit$ | async" [class.completed]="kit.title">
+      {{ kit.price }}
+    </li>
+  </ul>
+  
 </div>
+
+
+<!-- <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [style.background-image]="'url('+kit.image+')'"></div>
+      <mat-card-title>{{kit.title}}</mat-card-title>
+      <mat-card-subtitle>{{kit.series}}</mat-card-subtitle>
+    </mat-card-header> 
+    <ul class="heroes">
+      <li *ngFor="let hero of heroes">
+        <a routerLink="/detail/{{hero.id}}"></a>
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+        <button class="delete" title="delete hero" (click)="delete(hero)">x</button>
+        <button class="up" title="move kit up" (click)="moveUpHero(hero)">up</button>
+        <button class="next" title="move kit to build" (click)="moveToBuild(hero)">N</button>
+      </li>
+    </ul>
+
+    this is a good segment for testing observables
+    <ul>
+    <li *ngFor="let kit of kit$ | async" [class.completed]="kit.title">
+      {{ kit.series }}
+    </li>
+  </ul>
+  -->

@@ -26,9 +26,9 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
-
-
+import { CoreModule } from './core/core.module';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     StageComponent,
     BuildingComponent,
     MyPaintsComponent,
+    UserProfileComponent,
     LoginComponent
   ],
   imports: [
@@ -53,7 +54,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MaterialComponent,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    
     FlexLayoutModule,
+    
   
     //HttpClientInMemoryWebApiModule.forRoot(
       //InMemoryDataService, { dataEncapsulation: false }
@@ -64,11 +67,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     HttpClientModule,
     BrowserModule,
     FormsModule,
+    CoreModule,
     AppRoutingModule
   ],
   exports: [MaterialComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    AngularFireAuth,
+  
     //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

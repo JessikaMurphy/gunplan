@@ -9,10 +9,11 @@ import { MyPaintsComponent } from './my-paints/my-paints.component';
 
 
 import { LoginComponent } from './login/login.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: UserProfileComponent },
   { path: 'detail/:id', component: HeroDetailComponent },
   { path: 'backlog', component: BacklogComponent },
   { path: 'my-paints', component: MyPaintsComponent },
