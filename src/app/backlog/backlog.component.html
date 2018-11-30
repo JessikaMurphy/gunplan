@@ -40,8 +40,10 @@
       <mat-card-content *ngIf="collapsed">
         <span>{{kit.info_text}}</span>
         <mat-divider></mat-divider>
+        <button (click)="auth.addKitToKitList(kit)">Add</button>
       </mat-card-content>
     </mat-card>
+    
   </div>
   <ul>
     <li *ngFor="let kit of kit$ | async" [class.completed]="kit.title">

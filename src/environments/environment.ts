@@ -12,6 +12,7 @@ export const environment = {
       storageBucket: "ganpuro-7da35.appspot.com",
       messagingSenderId: "980299672440"
     }
+  
 };
 
 /*

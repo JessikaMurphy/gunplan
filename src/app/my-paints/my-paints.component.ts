@@ -6,6 +6,7 @@ import { AuthenticationService} from '../_services/authentication.service';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
+import { AuthService } from '../core/auth.service';
 
 
 @Component({
@@ -19,14 +20,49 @@ export class MyPaintsComponent implements OnInit {
   paints : Paint[];
   restItems: any;
   paints$: Observable<Paint[]>;
+  paint$: Observable<Paint[]>;
   
   private searchTerms = new Subject<string>();
-  constructor(private paintService: PaintService, private auth: AuthenticationService ) { }
+  constructor(
+    private paintService: PaintService, 
+    private auth: AuthenticationService,
+    public authS: AuthService ) { }
 
   ngOnInit() {
-      this.getPaints();
+      //this.getPaints();
+      this.getColors();
+      console.log('printing user paint list',this.paintService.getItemsList())
       
-      
+  }
+  
+
+  getColors(): void{
+    this.paintService.getColors().subscribe(paints =>{
+      console.log(paints)
+      this.paints = paints;
+    });
+  }
+  onSelect(paint){
+    this.paintService.onSelect(paint)
+  }
+ 
+  
+  
+  
+  /* getRestItems(): void {
+    this.paintService.restItemsServiceGetRestItems()
+      .subscribe(
+        paints => {
+          this.paints = paints;
+          console.log(this.paints);
+        }
+      )
+  } 
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+   
+  //this whole piping thing was inside ngOnInit()
       this.paints$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -36,10 +72,10 @@ export class MyPaintsComponent implements OnInit {
  
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.paintService.searchPaints(term)), 
-    )
-    ;
-  }
-  onSelect(paint):void{
+    );
+
+    //the following functions were from the sql implementation
+    onSelect(paint):void{
     console.log(paint);
     this.paintService.addPaint(paint).subscribe((res)=>{
       
@@ -58,27 +94,12 @@ export class MyPaintsComponent implements OnInit {
     });
     
   }
-
-  
   getPaints(): void {
     this.paintService.getPaints().subscribe(paints => {
           this.paints = paints;
           console.log(paints);
         });     
   }
-  /* getRestItems(): void {
-    this.paintService.restItemsServiceGetRestItems()
-      .subscribe(
-        paints => {
-          this.paints = paints;
-          
-          
-          console.log(this.paints);
-        }
-      )
-  } */
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
+  */
 
 }

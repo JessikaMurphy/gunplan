@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, merge } from 'rxjs/operators';
 
 import { Kit } from '../kit';
 
@@ -16,7 +16,7 @@ interface User{
   photoURL?: string;
   displayName?: string;
   favoriteColor?: string;
-  userKitList?: Observable<Kit[]>;
+  kitList?: Observable<Kit[]>;
 }
 
 @Injectable({
@@ -25,6 +25,8 @@ interface User{
 export class AuthService {
 
   user: Observable<User>;
+  item: Observable<any[]>;
+   
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -41,7 +43,6 @@ export class AuthService {
       })
     )
   }
-
   googleLogin(){
     const provider = new auth.GoogleAuthProvider();
     return this.oAuthLogin(provider);
@@ -54,26 +55,44 @@ export class AuthService {
   }
   private updateUserData(user) {
     // Sets user data to firestore on login
-
+    console.log('clicked the button');
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-
     const data: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      userKitList: user.userKitList
+      kitList: user.kitList
     }
-    return userRef.set(data, { merge: true })
+    return userRef.set(data, { merge: true });
   }
   signOut() {
     this.afAuth.auth.signOut().then(() => {
         this.router.navigate(['/']);
     });
   }
-  private addKitToUserCollection(kit){
-
+  updateUserColor(){
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.afAuth.auth.currentUser.uid}`);
+    console.log(this.afAuth.auth.currentUser.uid);
+    const data= {
+      favoriteColor: 'pink',
+    }
+    userRef.update(data);
   }
+  addKitToKitList(kit){
+    const thisKit: Kit = {
+      image: kit.image,
+      title: kit.title,
+      info_text: kit.info_text,
+      link: kit.link,
+      release_date: kit.release_date,
+      series: kit.series
+    }
+
+    console.log(kit.title,'clicked');
+  }
+  
+  
 
 
 }

@@ -29,6 +29,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from './core/core.module';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AngularFireDatabase } from '@angular/fire/database';
+
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     
+    
     FlexLayoutModule,
     
   
@@ -73,7 +76,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   exports: [MaterialComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    AngularFireAuth,
+    AngularFireAuth,AngularFireDatabase
   
     //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

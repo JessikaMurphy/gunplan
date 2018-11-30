@@ -1,35 +1,81 @@
 import { Injectable } from '@angular/core';
 import {Paint} from './paint';
+
 import { MessageService } from './message.service';
 import { Http, Response,RequestOptions, Request, Headers, RequestMethod } from "@angular/http";
-
-import { Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { catchError, map, tap, mergeMap } from 'rxjs/operators';
 
 import {forkJoin} from 'rxjs';
-
-/* const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-}; */
-let requestOptions = new RequestOptions({ headers:null, withCredentials: 
-  true });
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { Observable, combineLatest, timer, BehaviorSubject,of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { AuthService } from './core/auth.service';
+import { AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaintService {
 
-  
-  //private paintsUrl = 'api/paints';
-  private paintsUrl = 'http://localhost:8083/rest/paint/';
   observablePaints: Observable<Paint[]>;
-  private databaseUrl = 'http://localhost:5000/api/user/me/mypaints';
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService
 
-  ) { }
+  paintCollectionReference: AngularFirestoreCollection<Paint>;
+  
+  paint$: Observable<Paint[]>;
+  
+  items: AngularFireList<Paint> = null;
+  userId: string;
+
+  constructor(
+    public auth: AuthService,
+    private db: AngularFirestore,
+    private userPaints: AngularFireDatabase
+    
+  ) {
+    this.paintCollectionReference = this.db.collection<Paint>('paints');
+    this.paint$ = this.paintCollectionReference.valueChanges();
+    this.items = userPaints.list<Paint>(`userPaints/${this.userId}`);
+    //this.paint$.subscribe(data => console.log(data) );
+    this.auth.user.subscribe(
+      user => {
+        if(user) this.userId = user.uid
+        console.log(this.userId)
+      })
+   }
+
+
+  getColors(): Observable<Paint[]>{
+    return this.paint$;
+  }
+  
+   getItemsList(): AngularFireList<Paint> {
+    if (!this.userId) return;
+    this.items = this.userPaints.list(`userPaints/${this.userId}`);
+    console.log('got the items')
+    return this.items
+  }
+  onSelect(paint){
+    console.log(paint)
+    this.items.push(paint)
+  }
+  
+
+
+
+}
+
+/*  DEPRECATED FUNCTIONS AND PROPERTIES FROM BEFORE FIRESTORE/FIREBASE
+    private paintsUrl = 'api/paints';
+    private paintsUrl = 'http://localhost:8083/rest/paint/'; 
+    private http: HttpClient,
+    private messageService: MessageService,
+    private databaseUrl = 'http://localhost:5000/api/user/me/mypaints';
+
+    /* const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+}; 
+let requestOptions = new RequestOptions({ headers:null, withCredentials: true });
 
   // Rest Items Service: Read all REST Items
   restItemsServiceGetRestItems(): Observable<Paint[]> {
@@ -38,7 +84,6 @@ export class PaintService {
       tap(paints => this.log('fetched paints')),
       catchError(this.handleError('getPaints', []))
     );
-
   }
   addPaint(formattedPaintString: string){
     return this.http.put<any>('http://localhost:5000/api/user/me/add',
@@ -57,7 +102,7 @@ export class PaintService {
     return this.http.request(newReq);
   }
   getPaints(): Observable<Paint[]> {
-    return this.http.get<any>(this.databaseUrl)
+    return this.http.get<any>(this.paintsUrl)
     .pipe(map(
       response=> {
         if(response && (response.success==true))
@@ -71,9 +116,7 @@ export class PaintService {
       // if not search term, return empty paint array.
       return this.restItemsServiceGetRestItems();
     }
-    
    return this.http.get<Paint[]>(`${this.paintsUrl}/search/${term}`)
-   
    .pipe(
       tap(_ => this.log(`found paints matching "${term}"`)),
       catchError(this.handleError<Paint[]>('searchPaints', []))
@@ -83,12 +126,11 @@ export class PaintService {
   private log(message: string) {
     this.messageService.add(`PaintService: ${message}`);
   }
-   /**
+     /**
  * Handle Http operation that failed.
  * Let the app continue.
  * @param operation - name of the operation that failed
  * @param result - optional value to return as the observable result
- */
 private handleError<T> (operation = 'operation', result?: T) {
   return (error: any): Observable<T> => {
 
@@ -101,9 +143,4 @@ private handleError<T> (operation = 'operation', result?: T) {
     // Let the app keep running by returning an empty result.
     return of(result as T);
   };
-}
-
-  
-
-
-}
+*/
