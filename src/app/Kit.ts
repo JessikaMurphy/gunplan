@@ -1,4 +1,5 @@
 export class Kit {
+    fsid: string;
     constructor(
         public image: string,
         public info_text: string,
@@ -6,6 +7,5 @@ export class Kit {
         public release_date: string,
         public series: string,
         public title: string
-
     ){}
   }

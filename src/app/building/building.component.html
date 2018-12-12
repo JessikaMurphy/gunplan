@@ -1,1 +1,22 @@
-<h2>Kits in Build</h2>
+<h2>Planning</h2>
+
+<div fxLayout="row" fxLayout.xs="row" fxLayoutGap="1%">
+    <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
+      <mat-card class="kit-card" *ngFor="let userKit of kitService.userKits">
+        <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
+          <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+userKit.image+')'"></div>
+          <span fxFlex="75%" class="kit-name">{{userKit.title}}</span>
+        </mat-card-title>
+      </mat-card>
+    </div>
+
+    <div id="col2">
+        <ul class="mypaints">
+          <li *ngFor="let paint of paintService.userPaints" [style.backgroundColor]="paint.rgb" (click)="onSelect(paint)">
+            <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}
+            </a>
+            
+          </li>
+        </ul>
+      </div>
+    </div>

@@ -30,7 +30,7 @@ import { CoreModule } from './core/core.module';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AngularFireDatabase } from '@angular/fire/database';
-
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -56,6 +56,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
     MaterialComponent,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    Ng5SliderModule,
     
     
     FlexLayoutModule,

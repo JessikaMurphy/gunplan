@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Paint } from '../paint';
-import {PaintService} from '../paint.service';
+import { PaintService } from '../paint.service';
 import { Observable, Subject } from 'rxjs';
-import { AuthenticationService} from '../_services/authentication.service';
-import {
-  debounceTime, distinctUntilChanged, switchMap
-} from 'rxjs/operators';
+import { AuthenticationService } from '../_services/authentication.service';
 import { AuthService } from '../core/auth.service';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Options } from 'ng5-slider';
 
 
 @Component({
@@ -17,38 +16,87 @@ import { AuthService } from '../core/auth.service';
 export class MyPaintsComponent implements OnInit {
 
 
-  paints : Paint[];
+  paints: Paint[];
   restItems: any;
   paints$: Observable<Paint[]>;
   paint$: Observable<Paint[]>;
-  
+  userId: string;
+  userPaints: Paint[];
+  paintCollectionReference: AngularFirestoreCollection<Paint>;
   private searchTerms = new Subject<string>();
+
+  items: Observable<any[]>;
   constructor(
-    private paintService: PaintService, 
+    private paintService: PaintService,
     private auth: AuthenticationService,
-    public authS: AuthService ) { }
+    private db: AngularFirestore,
+    public authS: AuthService) {
+  }
+  options: Options = {
+    floor: 0,
+    ceil: 100,
+    showSelectionBar: true,
+    hideLimitLabels: true,
+    hidePointerLabels: true,
+    getSelectionBarColor: (value: number): string => {
+        if (value <= 30) {
+            return 'red';
+        }
+        if (value <75) {
+            return 'orange';
+        }
+        if (value <= 90) {
+            return 'yellow';
+        }
+        return '#2AE02A';
+    }
+  };
+
 
   ngOnInit() {
-      //this.getPaints();
-      this.getColors();
-      console.log('printing user paint list',this.paintService.getItemsList())
-      
+    //this.getPaints();
+    //this.getColors();
+    this.authS.user.subscribe(
+      user => {
+        if (user) {
+          this.userId = user.uid
+          console.log(this.userId)
+          this.paintCollectionReference = this.db.collection<Paint>(`users/${this.userId}/userPaints`);
+          this.paintCollectionReference.valueChanges().subscribe(
+            userPaints => {
+              this.userPaints = userPaints
+              console.log(this.userPaints)
+            }
+          )
+        }
+      })
   }
-  
 
-  getColors(): void{
-    this.paintService.getColors().subscribe(paints =>{
+
+  getColors(): void {
+    this.paintService.getColors().subscribe(paints => {
       console.log(paints)
       this.paints = paints;
     });
   }
-  onSelect(paint){
-    this.paintService.onSelect(paint)
+  onSelect(paint: Paint) {
+    var id = this.db.createId();
+    paint.fsid = id
+    paint.amount = 100
+    this.paintCollectionReference.doc(id).set(paint)
   }
- 
-  
-  
-  
+  removePaint(paint: Paint) {
+    this.paintCollectionReference.doc(paint.fsid).delete();
+  }
+  passPaint(paint: Paint, value: number){
+    console.log(paint.fsid+'is'+ value)
+    this.paintCollectionReference.doc(paint.fsid).update(paint);
+  }
+
+
+
+
+
   /* getRestItems(): void {
     this.paintService.restItemsServiceGetRestItems()
       .subscribe(

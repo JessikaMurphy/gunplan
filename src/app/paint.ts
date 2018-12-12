@@ -3,14 +3,16 @@ export class Paint {
     rgb: String;
     paintId: String;
     brand: String;
-    
-    constructor(paintName: String, rgb: String, paintId: String, brand: String){
-      this.paintName = paintName;
-      this.rgb = rgb;
-      this.paintId = paintId;
-      this.brand = brand;
-      
-      }
-  }
+    fsid: string;
+    amount: number;
 
-  
+
+    constructor(paintName: String, rgb: String, paintId: String, brand: String) {
+        this.paintName = paintName;
+        this.rgb = rgb;
+        this.paintId = paintId;
+        this.brand = brand;
+
+    }
+}
+

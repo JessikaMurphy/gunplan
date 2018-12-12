@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Paint} from './paint';
-
-import { MessageService } from './message.service';
-import { Http, Response,RequestOptions, Request, Headers, RequestMethod } from "@angular/http";
-import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
-import { catchError, map, tap, mergeMap } from 'rxjs/operators';
-
-import {forkJoin} from 'rxjs';
+import { Paint } from './paint';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable, combineLatest, timer, BehaviorSubject,of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, timer, BehaviorSubject, of } from 'rxjs';
 import { AuthService } from './core/auth.service';
 import { AngularFireList } from 'angularfire2/database';
-import { AngularFireDatabase } from '@angular/fire/database';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,45 +14,49 @@ export class PaintService {
   observablePaints: Observable<Paint[]>;
 
   paintCollectionReference: AngularFirestoreCollection<Paint>;
-  
   paint$: Observable<Paint[]>;
-  
   items: AngularFireList<Paint> = null;
   userId: string;
+  paints: Paint[];
+  userPaints: Paint[];
 
   constructor(
     public auth: AuthService,
     private db: AngularFirestore,
-    private userPaints: AngularFireDatabase
     
   ) {
     this.paintCollectionReference = this.db.collection<Paint>('paints');
     this.paint$ = this.paintCollectionReference.valueChanges();
-    this.items = userPaints.list<Paint>(`userPaints/${this.userId}`);
-    //this.paint$.subscribe(data => console.log(data) );
+    this.paint$.subscribe(
+      paints => {
+        this.paints = paints
+      }
+    )
     this.auth.user.subscribe(
       user => {
-        if(user) this.userId = user.uid
-        console.log(this.userId)
+        if (user) {
+          this.userId = user.uid
+          console.log(this.userId)
+          this.paintCollectionReference = this.db.collection<Paint>(`users/${this.userId}/userPaints`);
+          this.paintCollectionReference.valueChanges().subscribe(
+            userPaints => {
+              this.userPaints = userPaints
+              console.log(this.userPaints)
+            }
+          )
+        }
       })
-   }
 
-
-  getColors(): Observable<Paint[]>{
+    //this.paint$.subscribe(data => console.log(data) );
+  }
+  getColors(): Observable<Paint[]> {
     return this.paint$;
   }
-  
-   getItemsList(): AngularFireList<Paint> {
-    if (!this.userId) return;
-    this.items = this.userPaints.list(`userPaints/${this.userId}`);
-    console.log('got the items')
-    return this.items
-  }
-  onSelect(paint){
+  onSelect(paint) {
     console.log(paint)
     this.items.push(paint)
   }
-  
+
 
 
 

@@ -4,14 +4,8 @@
 
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: "AIzaSyAuJa_fAC_GuHKSaWfFIxz_UfpJV4n5jSc",
-      authDomain: "ganpuro-7da35.firebaseapp.com",
-      databaseURL: "https://ganpuro-7da35.firebaseio.com",
-      projectId: "ganpuro-7da35",
-      storageBucket: "ganpuro-7da35.appspot.com",
-      messagingSenderId: "980299672440"
-    }
+  
+
   
 };
 

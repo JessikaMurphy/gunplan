@@ -1,4 +1,5 @@
 <h2>My Backlog</h2>
+<button (click)="kitService.getUserKits()">log kits</button>
 
 <div>
   <label>Kit name:
@@ -7,23 +8,23 @@
   <button mat-button (click)="searchByName()">search</button>
   <button mat-button [matMenuTriggerFor]="menu">Series</button>
   <mat-menu #menu="matMenu">
-    <button (click)="filterCriteria('Mobile Suit Gundam SEED')"mat-menu-item>Mobile Suit Gundam SEED</button>
-    <button (click)="filterCriteria('Mobile Suit Gundam')"mat-menu-item>Mobile Suit Gundam</button>
-    <button (click)="filterCriteria('Mobile Suit Gundam Unicorn')"mat-menu-item>Mobile Suit Gundam Unicorn</button>
-    <button (click)="filterCriteria('Mobile Suit Gundam AGE')"mat-menu-item>Mobile Suit Gundam AGE</button>
-    <button (click)="filterCriteria('Gundam Build Fighers')"mat-menu-item>Gundam Build Fighters</button>
-    <button (click)="filterCriteria('MSG 0083: Stardust Memory')"mat-menu-item>MSG 0083: Stardust Memory</button>
+    <button (click)="kitService.filterCriteria('Mobile Suit Gundam SEED')"mat-menu-item>Mobile Suit Gundam SEED</button>
+    <button (click)="kitService.filterCriteria('Mobile Suit Gundam')"mat-menu-item>Mobile Suit Gundam</button>
+    <button (click)="kitService.filterCriteria('Mobile Suit Gundam Unicorn')"mat-menu-item>Mobile Suit Gundam Unicorn</button>
+    <button (click)="kitService.filterCriteria('Mobile Suit Gundam AGE')"mat-menu-item>Mobile Suit Gundam AGE</button>
+    <button (click)="kitService.filterCriteria('Gundam Build Fighers')"mat-menu-item>Gundam Build Fighters</button>
+    <button (click)="kitService.filterCriteria('MSG 0083: Stardust Memory')"mat-menu-item>MSG 0083: Stardust Memory</button>
 
   </mat-menu>
-  <button mat-button (click)="releaseDateAscending=!releaseDateAscending;filterByReleaseDate(releaseDateAscending)"class="filter-buttons">Release Date<i class="material-icons">sort</i></button>
-  <button mat-button (click)="direction=!direction;sortBySeries(direction)"class ="filter-buttons">Series<i class="material-icons">sort</i></button>
-  <button mat-button (click)="priceAscending=!priceAscending;filterByPrice(priceAscending)"class="filter-buttons">Price<i class="material-icons">sort</i></button>
+  <button mat-button (click)="releaseDateAscending=!releaseDateAscending;kitService.filterByReleaseDate(releaseDateAscending)"class="filter-buttons">Release Date<i class="material-icons">sort</i></button>
+  <button mat-button (click)="direction=!direction;kitService.sortBySeries(direction)"class ="filter-buttons">Series<i class="material-icons">sort</i></button>
+  <button mat-button (click)="priceAscending=!priceAscending;kitService.filterByPrice(priceAscending)"class="filter-buttons">Price<i class="material-icons">sort</i></button>
 </div>
 
 
 <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="1%">
   <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-card class="kit-card" *ngFor="let kit of kit$ | async" (click)="onSelect(kit)">
+    <mat-card class="kit-card" *ngFor="let kit of kitService.kits" (click)="onSelect(kit)">
       <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
         <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
         <span fxFlex="75%" class="kit-name">{{kit.title}}</span>
@@ -40,17 +41,21 @@
       <mat-card-content *ngIf="collapsed">
         <span>{{kit.info_text}}</span>
         <mat-divider></mat-divider>
-        <button (click)="auth.addKitToKitList(kit)">Add</button>
+        <button (click)="kitService.addKitToUserKits(kit)">Add</button>
       </mat-card-content>
     </mat-card>
-    
   </div>
-  <ul>
-    <li *ngFor="let kit of kit$ | async" [class.completed]="kit.title">
-      {{ kit.price }}
-    </li>
-  </ul>
-  
+
+  <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="1%">
+    <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
+      <mat-card class="kit-card" *ngFor="let userKit of kitService.userKits" (click)="kitService.removeUserKit(userKit)">
+        <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
+          <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+userKit.image+')'"></div>
+          <span fxFlex="75%" class="kit-name">{{userKit.title}}</span>
+        </mat-card-title>
+      </mat-card>
+    </div>
+
 </div>
 
 

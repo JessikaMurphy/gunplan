@@ -6,15 +6,19 @@
   <div id="row">
     <div id="col1">
       <ul class="mypaints">
-        <li *ngFor="let paint of myPaints" [style.backgroundColor]="paint.rgb">
-          <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}
-          </a><button (click)="removePaint(paint)" mat-mini-fab>X</button>
+        <li *ngFor="let paint of userPaints" [style.backgroundColor]="paint.rgb">
+              <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>
+              <button (click)="removePaint(paint)"mat-mini-fab>X</button>
+              <ng5-slider [(value)]="paint.amount" [options]="options"(click)="passPaint(paint,value)"></ng5-slider>
+            
+             
         </li>
+        
       </ul>
     </div>
     <div id="col2">
       <ul class="paints">
-        <li *ngFor="let paint of paints" [style.backgroundColor]="paint.rgb" (click)="onSelect(paint)">
+        <li *ngFor="let paint of paintService.paints" [style.backgroundColor]="paint.rgb" (click)="onSelect(paint)">
           <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}
           </a>
         </li>

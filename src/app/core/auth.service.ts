@@ -15,8 +15,6 @@ interface User{
   email: string;
   photoURL?: string;
   displayName?: string;
-  favoriteColor?: string;
-  kitList?: Observable<Kit[]>;
 }
 
 @Injectable({
@@ -31,6 +29,7 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router
+    
   ) {
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.pipe(
@@ -61,8 +60,7 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL,
-      kitList: user.kitList
+      photoURL: user.photoURL
     }
     return userRef.set(data, { merge: true });
   }
@@ -71,26 +69,11 @@ export class AuthService {
         this.router.navigate(['/']);
     });
   }
-  updateUserColor(){
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.afAuth.auth.currentUser.uid}`);
-    console.log(this.afAuth.auth.currentUser.uid);
-    const data= {
-      favoriteColor: 'pink',
-    }
-    userRef.update(data);
+  addKitToKitList(kit: Kit){
+    
   }
-  addKitToKitList(kit){
-    const thisKit: Kit = {
-      image: kit.image,
-      title: kit.title,
-      info_text: kit.info_text,
-      link: kit.link,
-      release_date: kit.release_date,
-      series: kit.series
-    }
-
-    console.log(kit.title,'clicked');
-  }
+  
+  
   
   
 

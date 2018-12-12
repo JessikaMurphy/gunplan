@@ -9,7 +9,8 @@ import {
     MatIconModule,
     MatDividerModule,
     MatTabsModule,
-    MatExpansionModule } from '@angular/material';
+    MatExpansionModule,
+    MatSliderModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import {
         MatDividerModule,
         MatGridListModule,
         MatExpansionModule,
+        MatSliderModule,
         MatTabsModule],
     exports: [
         MatButtonModule,
@@ -32,6 +34,7 @@ import {
         MatDividerModule,
         MatGridListModule,
         MatExpansionModule,
+        MatSliderModule,
         MatTabsModule,
         MatIconModule,
     ],

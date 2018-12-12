@@ -21,9 +21,7 @@
   <h3>Howdy, {{ user.displayName }}</h3>
   <img  [src]="user.photoURL">
   <p>UID: {{ user.uid }}</p>
-  <p>Favorite Color: {{ user?.favoriteColor }} </p>
   <button (click)="auth.signOut()">Logout</button>
-  <button (click)="auth.updateUserColor()">addcolor</button>
-  <p>index 0 of KitList: {{ user?.kitList[0] }} </p>
+  
 </div>
 </ng-template>
