@@ -7,7 +7,6 @@ import { BacklogComponent } from './backlog/backlog.component';
 import { BuildingComponent } from './building/building.component';
 import { MyPaintsComponent } from './my-paints/my-paints.component';
 
-
 import { LoginComponent } from './login/login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
