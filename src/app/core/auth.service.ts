@@ -8,7 +8,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, of } from 'rxjs';
 import { switchMap, merge } from 'rxjs/operators';
 
-import { Kit } from '../kit';
+import { Kit } from '../Kit';
 
 interface User{
   uid: string;
@@ -24,12 +24,12 @@ export class AuthService {
 
   user: Observable<User>;
   item: Observable<any[]>;
-   
+
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router
-    
+
   ) {
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.pipe(
@@ -70,12 +70,12 @@ export class AuthService {
     });
   }
   addKitToKitList(kit: Kit){
-    
+
   }
-  
-  
-  
-  
+
+
+
+
 
 
 }

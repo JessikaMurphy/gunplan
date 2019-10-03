@@ -62,8 +62,8 @@ export class KitService {
       this.priceFilter$
       ).pipe(switchMap(([series, releaseDate, price]) =>
       db.collection<Kit>('masterGrade', ref => {
-        let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-        seriesFilter = ['Mobile Suit Gundam','Mobile Suit Gundam AGE', 'Mobile Suit Gundam Unicorn', 'Mobile Suit Gundam SEED'];
+        let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        const seriesFilter = ['Mobile Suit Gundam', 'Mobile Suit Gundam AGE', 'Mobile Suit Gundam Unicorn', 'Mobile Suit Gundam SEED'];
         query = seriesFilter.indexOf(series) >= 0 ? query.where('series', '==', series) : query;
         query = query.orderBy('release_date', releaseDate ? 'asc' : 'desc');
         query = query.orderBy('price', price ? 'asc' : 'desc');
@@ -107,10 +107,10 @@ export class KitService {
       // if not search term, return empty hero array.
       return of([]);
     }
-    return this.kit$.get<Kit[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+    /*return this.kit$.get<Kit[]>(`${this.heroesUrl}/?name=${term}`).pipe(
       tap(_ => this.log(`found kits matching "${term}"`)),
       catchError(this.handleError<Kit[]>('searchKits', []))
-    );
+    );*/
   }
 
   private log(message: string) {
