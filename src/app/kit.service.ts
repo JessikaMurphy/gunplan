@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Kit } from './Kit';
-
+import { MessageService } from './message.service';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, combineLatest, Subject, of } from 'rxjs';
+import { switchMap, tap, catchError } from 'rxjs/operators';
 import { AuthService } from './core/auth.service';
 
 @Injectable({
@@ -16,7 +16,6 @@ export class KitService {
   userId: string;
   userKits: Kit[];
   userKit$: Observable<Kit[]>;
-
 
 
   hideDetails: boolean;
@@ -32,7 +31,8 @@ export class KitService {
 
   constructor(
     private db: AngularFirestore,
-    public auth: AuthService
+    public auth: AuthService,
+    private messageService: MessageService
   ) {
     this.releaseDateFilter$ = new BehaviorSubject(null);
     this.auth.user.subscribe(
@@ -105,6 +105,35 @@ export class KitService {
     console.log(priceAscending, 'passed');
     this.priceFilter$.next(priceAscending);
   }
+  
+  searchByTerm(term: string): Observable<Kit[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+    return this.kit$.get<Kit[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+      tap(_ => this.log(`found kits matching "${term}"`)),
+      catchError(this.handleError<Kit[]>('searchKits', []))
+    );
+  }
+
+  private log(message: string) {
+    this.messageService.add(`KitService: ${message}`);
+  }
+
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+  
+
+
 
 
 

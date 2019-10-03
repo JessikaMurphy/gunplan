@@ -6,11 +6,12 @@ import { Kit } from '../kit';
 import { HeroService } from '../hero.service';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, combineLatest, timer, BehaviorSubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { AuthService } from '../core/auth.service';
 import { KitService } from '../kit.service';
-
+import {
+debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 
 
 @Component({
@@ -32,9 +33,7 @@ export class BacklogComponent implements OnInit {
   ) {
     
   }
-  ngOnInit() {
-    
-    
+  ngOnInit(){
   }
   
   onSelect(kit):void{
@@ -42,9 +41,17 @@ export class BacklogComponent implements OnInit {
     this.kit = kit
     console.log(this.kit);
   }
+
+  search(term: string): void {
+    this.kitService.searchByTerm(term);
+  }
+
   goBack(): void {
     this.location.back();
   }
+
+
+
   
 
   
