@@ -107,10 +107,10 @@ export class KitService {
       // if not search term, return empty hero array.
       return of([]);
     }
-    return this.kit$.get<Kit[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+    /*return this.kit$.get<Kit[]>(`${this.heroesUrl}/?name=${term}`).pipe(
       tap(_ => this.log(`found kits matching "${term}"`)),
       catchError(this.handleError<Kit[]>('searchKits', []))
-    );
+    );*/
   }
 
   private log(message: string) {
