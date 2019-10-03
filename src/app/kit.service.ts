@@ -22,7 +22,7 @@ export class KitService {
   holdKit = new Array();
   kit = null;
   criteriaFilter$: BehaviorSubject<string|null>;
-  
+
   priceFilter$: BehaviorSubject<boolean|null>;
 
   masterGradeCollectionReference: AngularFirestoreCollection<Kit>;
@@ -60,17 +60,13 @@ export class KitService {
       this.criteriaFilter$,
       this.releaseDateFilter$,
       this.priceFilter$
-      ).pipe(switchMap(([series,releaseDate,price]) =>
+      ).pipe(switchMap(([series, releaseDate, price]) =>
       db.collection<Kit>('masterGrade', ref => {
         let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-        if(series === 'Mobile Suit Gundam'){ query = query.where('series','==','Mobile Suit Gundam')};
-        if(series === 'Mobile Suit Gundam AGE'){ query = query.where('series','==','Mobile Suit Gundam')};
-        if(series === 'Mobile Suit Gundam Unicorn'){ query = query.where('series','==','Mobile Suit Gundam Unicorn')};
-        if(series === 'Mobile Suit Gundam SEED'){ query = query.where('series','==','Mobile Suit Gundam SEED')};
-        if(releaseDate){query = query.orderBy('release_date','asc')};
-        if(!releaseDate){query = query.orderBy('release_date', 'desc')};
-        if(price){ query = query.orderBy('price','asc')};
-        if(!price){ query = query.orderBy('price', 'desc')};
+        seriesFilter = ['Mobile Suit Gundam','Mobile Suit Gundam AGE', 'Mobile Suit Gundam Unicorn', 'Mobile Suit Gundam SEED'];
+        query = seriesFilter.indexOf(series) >= 0 ? query.where('series', '==', series) : query;
+        query = query.orderBy('release_date', releaseDate ? 'asc' : 'desc');
+        query = query.orderBy('price', price ? 'asc' : 'desc');
         return query;
       }).valueChanges()
       ));
@@ -105,7 +101,7 @@ export class KitService {
     console.log(priceAscending, 'passed');
     this.priceFilter$.next(priceAscending);
   }
-  
+
   searchByTerm(term: string): Observable<Kit[]> {
     if (!term.trim()) {
       // if not search term, return empty hero array.
@@ -131,7 +127,7 @@ export class KitService {
       return of(result as T);
     };
   }
-  
+
 
 
 
