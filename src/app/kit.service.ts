@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Kit } from './Kit';
-
+import { MessageService } from './message.service';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, combineLatest, Subject, of } from 'rxjs';
+import { switchMap, tap, catchError } from 'rxjs/operators';
 import { AuthService } from './core/auth.service';
 
 @Injectable({
@@ -18,12 +18,11 @@ export class KitService {
   userKit$: Observable<Kit[]>;
 
 
-
   hideDetails: boolean;
   holdKit = new Array();
   kit = null;
   criteriaFilter$: BehaviorSubject<string|null>;
-  
+
   priceFilter$: BehaviorSubject<boolean|null>;
 
   masterGradeCollectionReference: AngularFirestoreCollection<Kit>;
@@ -32,7 +31,8 @@ export class KitService {
 
   constructor(
     private db: AngularFirestore,
-    public auth: AuthService
+    public auth: AuthService,
+    private messageService: MessageService
   ) {
     this.releaseDateFilter$ = new BehaviorSubject(null);
     this.auth.user.subscribe(
@@ -60,17 +60,13 @@ export class KitService {
       this.criteriaFilter$,
       this.releaseDateFilter$,
       this.priceFilter$
-      ).pipe(switchMap(([series,releaseDate,price]) =>
+      ).pipe(switchMap(([series, releaseDate, price]) =>
       db.collection<Kit>('masterGrade', ref => {
         let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-        if(series === 'Mobile Suit Gundam'){ query = query.where('series','==','Mobile Suit Gundam')};
-        if(series === 'Mobile Suit Gundam AGE'){ query = query.where('series','==','Mobile Suit Gundam')};
-        if(series === 'Mobile Suit Gundam Unicorn'){ query = query.where('series','==','Mobile Suit Gundam Unicorn')};
-        if(series === 'Mobile Suit Gundam SEED'){ query = query.where('series','==','Mobile Suit Gundam SEED')};
-        if(releaseDate){query = query.orderBy('release_date','asc')};
-        if(!releaseDate){query = query.orderBy('release_date', 'desc')};
-        if(price){ query = query.orderBy('price','asc')};
-        if(!price){ query = query.orderBy('price', 'desc')};
+        seriesFilter = ['Mobile Suit Gundam','Mobile Suit Gundam AGE', 'Mobile Suit Gundam Unicorn', 'Mobile Suit Gundam SEED'];
+        query = seriesFilter.indexOf(series) >= 0 ? query.where('series', '==', series) : query;
+        query = query.orderBy('release_date', releaseDate ? 'asc' : 'desc');
+        query = query.orderBy('price', price ? 'asc' : 'desc');
         return query;
       }).valueChanges()
       ));
@@ -105,6 +101,35 @@ export class KitService {
     console.log(priceAscending, 'passed');
     this.priceFilter$.next(priceAscending);
   }
+
+  searchByTerm(term: string): Observable<Kit[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+    return this.kit$.get<Kit[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+      tap(_ => this.log(`found kits matching "${term}"`)),
+      catchError(this.handleError<Kit[]>('searchKits', []))
+    );
+  }
+
+  private log(message: string) {
+    this.messageService.add(`KitService: ${message}`);
+  }
+
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+
+
 
 
 
