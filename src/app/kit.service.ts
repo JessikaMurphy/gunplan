@@ -62,8 +62,8 @@ export class KitService {
       this.priceFilter$
       ).pipe(switchMap(([series, releaseDate, price]) =>
       db.collection<Kit>('masterGrade', ref => {
-        let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-        seriesFilter = ['Mobile Suit Gundam','Mobile Suit Gundam AGE', 'Mobile Suit Gundam Unicorn', 'Mobile Suit Gundam SEED'];
+        let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        const seriesFilter = ['Mobile Suit Gundam', 'Mobile Suit Gundam AGE', 'Mobile Suit Gundam Unicorn', 'Mobile Suit Gundam SEED'];
         query = seriesFilter.indexOf(series) >= 0 ? query.where('series', '==', series) : query;
         query = query.orderBy('release_date', releaseDate ? 'asc' : 'desc');
         query = query.orderBy('price', price ? 'asc' : 'desc');
