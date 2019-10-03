@@ -5,7 +5,7 @@
   <label>Kit name:
     <input #heroName />
   </label>
-  <button mat-button (click)="searchByName()">search</button>
+  <input #searchBox id="search-box" (keyup)="search(searchBox.value)"/>
   <button mat-button [matMenuTriggerFor]="menu">Series</button>
   <mat-menu #menu="matMenu">
     <button (click)="kitService.filterCriteria('Mobile Suit Gundam SEED')"mat-menu-item>Mobile Suit Gundam SEED</button>
