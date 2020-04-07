@@ -2,10 +2,7 @@
 <button (click)="kitService.getUserKits()">log kits</button>
 
 <div>
-  <label>Kit name:
-    <input #heroName />
-  </label>
-  <button mat-button (click)="searchByName()">search</button>
+  <input [(ngModel)]="searchText" placeholder="search text goes here">
   <button mat-button [matMenuTriggerFor]="menu">Series</button>
   <mat-menu #menu="matMenu">
     <button (click)="kitService.filterCriteria('Mobile Suit Gundam SEED')"mat-menu-item>Mobile Suit Gundam SEED</button>
@@ -14,7 +11,6 @@
     <button (click)="kitService.filterCriteria('Mobile Suit Gundam AGE')"mat-menu-item>Mobile Suit Gundam AGE</button>
     <button (click)="kitService.filterCriteria('Gundam Build Fighers')"mat-menu-item>Gundam Build Fighters</button>
     <button (click)="kitService.filterCriteria('MSG 0083: Stardust Memory')"mat-menu-item>MSG 0083: Stardust Memory</button>
-
   </mat-menu>
   <button mat-button (click)="releaseDateAscending=!releaseDateAscending;kitService.filterByReleaseDate(releaseDateAscending)"class="filter-buttons">Release Date<i class="material-icons">sort</i></button>
   <button mat-button (click)="direction=!direction;kitService.sortBySeries(direction)"class ="filter-buttons">Series<i class="material-icons">sort</i></button>
@@ -24,7 +20,7 @@
 
 <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="1%">
   <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-card class="kit-card" *ngFor="let kit of kitService.kits" (click)="onSelect(kit)">
+    <mat-card class="kit-card" *ngFor="let kit of kitService.kits | kit_filter : searchText" (click)="onSelect(kit)">
       <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
         <div mat-card-avatar class="example-header-image" span fxFlex="25%" [style.background-image]="'url('+kit.image+')'"></div>
         <span fxFlex="75%" class="kit-name">{{kit.title}}</span>

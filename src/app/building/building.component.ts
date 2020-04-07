@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../hero';
+import { Kit } from '../kit';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { KitService } from '../kit.service';
@@ -12,7 +12,7 @@ import { PaintService } from '../paint.service';
 })
 export class BuildingComponent implements OnInit {
 
-  kitsInBuilding: Hero[];
+  kitsInBuilding: Kit[];
 
   constructor(
     private route: ActivatedRoute,

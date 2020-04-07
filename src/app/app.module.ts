@@ -1,15 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule ,
-  HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { AppComponent } from './app.component';
-import { HeroesComponent } from './heroes/heroes.component';
-import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { BannerComponent } from './banner/banner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GridListComponent } from './grid-list/grid-list.component';
@@ -31,15 +26,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Ng5SliderModule } from 'ng5-slider';
+import { FilterPipe, KitFilterPipe, SeriesFilterPipe }from './filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeroesComponent,
-    HeroDetailComponent,
     MessagesComponent,
-    DashboardComponent,
-    HeroSearchComponent,
     BannerComponent,
     GridListComponent,
     BacklogComponent,
@@ -47,7 +39,10 @@ import { Ng5SliderModule } from 'ng5-slider';
     BuildingComponent,
     MyPaintsComponent,
     UserProfileComponent,
-    LoginComponent
+    LoginComponent,
+    FilterPipe,
+    KitFilterPipe,
+    SeriesFilterPipe
   ],
   imports: [
     //remove forRoot if you want to use with other modules (children)
@@ -57,11 +52,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     Ng5SliderModule,
-    
-    
     FlexLayoutModule,
-    
-  
     //HttpClientInMemoryWebApiModule.forRoot(
       //InMemoryDataService, { dataEncapsulation: false }
     //),

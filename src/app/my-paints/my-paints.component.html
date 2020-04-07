@@ -1,59 +1,25 @@
-<p>
-  my-paints works!
-
-</p>
 <div id="container">
   <div id="row">
     <div id="col1">
       <ul class="mypaints">
         <li *ngFor="let paint of userPaints" [style.backgroundColor]="paint.rgb">
-              <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>
-              <button (click)="removePaint(paint)"mat-mini-fab>X</button>
-              <ng5-slider [(value)]="paint.amount" [options]="options"(click)="passPaint(paint,value)"></ng5-slider>
-            
-             
+          <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}</a>
+          <button (click)="removePaint(paint)" mat-mini-fab>X</button>
+          <ng5-slider [(value)]="paint.amount" [options]="options" (click)="passPaint(paint,value)"></ng5-slider>
         </li>
-        
       </ul>
     </div>
     <div id="col2">
+      <input [(ngModel)]="searchText" placeholder="search text goes here">
       <ul class="paints">
-        <li *ngFor="let paint of paintService.paints" [style.backgroundColor]="paint.rgb" (click)="onSelect(paint)">
-          <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}
-          </a>
+        <li *ngFor="let paint of paintService.paints | paint_filter : searchText" [style.backgroundColor]="paint.rgb"
+          (click)="onSelect(paint)">
+        <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}
+        </a>
         </li>
       </ul>
     </div>
-
   </div>
-  <div *ngIf="authS.user | async; then authenticated else guest">
-    <!-- template will replace this div -->
-  </div>
-
-
-  <!-- User NOT logged in -->
-  <ng-template #guest>
-    <h3>Howdy, GUEST</h3>
-    <p>Login to get started...</p>
-
-    <button (click)="authS.googleLogin()">
-      <i class="fa fa-google"></i> Connect Google
-    </button>
-
-  </ng-template>
-
-  <!-- User logged in -->
-  <ng-template #authenticated>
-    <div *ngIf="authS.user | async as user">
-      <h3>Howdy, {{ user.displayName }}</h3>
-      <img [src]="user.photoURL">
-      <p>UID: {{ user.uid }}</p>
-      <p>Favorite Color: {{ user?.favoriteColor }} </p>
-      <button (click)="authS.signOut()">Logout</button>
-      <button (click)="authS.updateUserColor()">addcolor</button>
-      <p>index 0 of KitList: {{ user?.kitList[0] }} </p>
-    </div>
-  </ng-template>
 </div>
 
 

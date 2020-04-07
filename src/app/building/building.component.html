@@ -15,7 +15,6 @@
           <li *ngFor="let paint of paintService.userPaints" [style.backgroundColor]="paint.rgb" (click)="onSelect(paint)">
             <a><span class="badge">{{paint.paintId}}</span>{{paint.paintName}}
             </a>
-            
           </li>
         </ul>
       </div>

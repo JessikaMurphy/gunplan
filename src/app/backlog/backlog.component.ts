@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 //replace these two things with kit and kit service
 import { Kit } from '../kit';
-import { HeroService } from '../hero.service';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, combineLatest, timer, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';

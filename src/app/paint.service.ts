@@ -4,6 +4,8 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable, combineLatest, timer, BehaviorSubject, of } from 'rxjs';
 import { AuthService } from './core/auth.service';
 import { AngularFireList } from 'angularfire2/database';
+import { MessageService } from './message.service';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -23,6 +25,7 @@ export class PaintService {
   constructor(
     public auth: AuthService,
     private db: AngularFirestore,
+    private messageService: MessageService
     
   ) {
     this.paintCollectionReference = this.db.collection<Paint>('paints');
@@ -46,7 +49,6 @@ export class PaintService {
           )
         }
       })
-
     //this.paint$.subscribe(data => console.log(data) );
   }
   getColors(): Observable<Paint[]> {
@@ -56,6 +58,22 @@ export class PaintService {
     console.log(paint)
     this.items.push(paint)
   }
+  
+  
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+  private log(message: string) {
+    this.messageService.add(`PaintService: ${message}`);
+  }
+
 
 
 
