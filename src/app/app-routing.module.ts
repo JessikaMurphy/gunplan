@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'backlog', component: BacklogComponent },
   { path: 'my-paints', component: MyPaintsComponent },
   { path: 'building', component: BuildingComponent },
-  { path: '', redirectTo: 'my-paints', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   //{ path: 'dashboard', component: DashboardComponent },
   { path: 'heroes', component: HeroesComponent }
 ];
