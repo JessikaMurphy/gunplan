@@ -57,17 +57,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     Ng5SliderModule,
-    
-    
     FlexLayoutModule,
-    
-  
-    //HttpClientInMemoryWebApiModule.forRoot(
-      //InMemoryDataService, { dataEncapsulation: false }
-    //),
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
     HttpClientModule,
     BrowserModule,
     FormsModule,
@@ -77,9 +67,8 @@ import { Ng5SliderModule } from 'ng5-slider';
   exports: [MaterialComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    AngularFireAuth,AngularFireDatabase
-  
-    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    AngularFireAuth,
+    AngularFireDatabase
   ],
   bootstrap: [AppComponent]
 })
